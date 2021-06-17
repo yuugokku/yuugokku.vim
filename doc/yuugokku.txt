@@ -1,0 +1,178 @@
+*yuugokku.vim*     Vim8.2 plugin for Yuugokku-Japanese dictionary
+有日辞典を検索するVimプラグイン。
+
+Author: kpht <charzkpht@gmail.com>
+
+================================================================================
+目次                                                *yuugokku-contents*
+    インストール ...................................  |yuugokku-installation|
+    使い方 .........................................  |yuugokku-usage|
+    詳細検索 .......................................  |yuugokku-search|
+    コマンド .......................................  |yuugokku-command|
+    関数 ...........................................  |yuugokku-function|
+    グローバル変数 .................................  |yuugokku-variable|
+
+================================================================================
+インストール                                        *yuugokku-installation*
+
+    Vim-plugなら次の行を.vimrcファイルに書き込んで、`:PlugInstall`コマンドを実行
+    する。
+
+>
+    :Plug 'yuugokku/yuugokku.vim'
+<
+
+================================================================================
+使い方                                              *yuugokku-usage*
+
+    ユーゴック語"torbaa"の意味を調べるには次のようにコマンドを入力する。
+
+>
+    :Yuugokku torbaa
+<
+
+    訳語検索もできる。次のように日本語の単語をそのまま入力すれば、訳語に対して
+    その語句を含む候補を検索する。
+
+>
+    :Yuugokku 作る
+<
+
+
+================================================================================
+詳細検索                                            *yuugokku-search*
+
+
+    `:Yuugokku`コマンドは単一のキーワードによる手軽な検索を提供するのに対し、
+    `:YuugokkuSearch`コマンドは有日辞典の詳細検索を提供する。
+
+    一般的な構文は次のようになっている。|:YuugokkuSearch|も参照
+    
+>
+:YuugokkuSearch [{target1-option1}] {keyword1} [[{target2-option2}] {keyword2}] ...
+<
+
+    {target-option} {keyword}で1つの検索条件を表現する。
+    {keyword}は検索語句を意味する。例えば, "fistir", "幸せ"などである。
+    {target-option}は検索語句についての設定を追加する。targetはどの項目を対象に
+    するかを表し、次の中からどれか一つを指定する。
+
+                                                    *yuugokku-target*
+        {word} 見出し語                                     *yuugokku-word*
+            エントリーの見出し語を意味する。辞書形が書かれている。
+        {trans} 訳語                                        *yuugokku-trans*
+            エントリーの訳語を意味する。訳語には"【名詞】"のように品詞タグも含ま
+            れているので、品詞による検索は{trans}を指定する。
+        {ex} 用例                              *yuugokku-ex* *yuugokku-example*
+            用例検索をする。語源の情報も[...]の形で記述されている場合がある。
+        {wordtrans} 見出し語と訳語                          *yuugokku-wordtrans*
+            見出し語と訳語をあわせて検索する。wordとtransについてのOR検索と考え
+            ることができる。
+        {rhyme} 韻律 |yuugokku-rhyme|
+            見出し語の音節の長短を意味する。
+
+    optionは検索のマッチ方法を次の中から一つ指定する。
+
+                                                    *yuugokku-option*
+        {is} 完全一致                                       *yuugokku-is*
+            検索語句と完全に一致する。
+        {includes} 含む                                     *yuugokku-includes*
+            検索語句が文字列の一部として含まれている。
+        {starts} 始まる                                     *yuugokku-starts*
+            検索語句が文字列全体の先頭に位置している。
+        {ends} 終わる                                       *yuugokku-ends*
+            検索語句が文字列全体の末尾に位置している。
+        {regex} 正規表現にマッチする                        *yuugokku-regex*
+            検索語句に正規表現を用いる。
+
+    これらを組み合わせて検索条件を指定する。複数の検索条件を指定することがで
+    き、それらはすべてAND検索となる。
+
+    例えば、訳語に"名詞"を含み、かつ見出し語が"oo"で終わる、という条件は次のよう
+    に指定する。
+
+>
+    :YuugokkuSearch trans-includes 名詞 word-ends oo
+<
+    
+                                                    *yuugokku-rhyme*
+    targetの{rhyme}は、見出し語に対しユーゴック語の音節規則、韻律により検索する。
+    このとき、`-`が長音節、`^`が短音節のシンボルとして扱われる。
+    例えば、音節が「長-短」の構成になっており、見出し語が"anba"で終わる、という
+    条件は、次のように指定する。
+
+>
+    :YuugokkuSearch rhyme-is -^ word-ends anba
+<
+
+================================================================================
+コマンド                                            *yuugokku-command*
+
+                                                    *:Yuugokku* *:Ygk*
+:Yuugokku {keyword}
+:Ygk
+    {keyword}をもとに検索する。見出し語と訳語に対してincludes検索を行う。
+    次の2つのコマンドは等価であり、いずれも"fistir"を用いて、見出し語と訳語に対
+    してincludes検索を行う。
+
+>
+    :Ygk fistir
+    :Ygks fistir
+<
+
+
+                                                    *:YuugokkuSearch* *:Ygks*
+:YuugokkuSearch [{target1-option1}] {keyword1} [[{target2-option2}] {keyword2}] ...
+:Ygks
+    {keywordN}を検索したい単語や文字列、{targetN-optionN}を検索のマッチ先と
+    マッチ方法として指定して検索する。複数の条件を指定することができ、それらは
+    すべてAND検索となる。
+
+    {targetN-optionN}は省略可能。省略すると、wordtrans-includesが補完される。
+    targetとoptionの詳細な使用方法は |yuugokku-search|を参照。
+
+
+================================================================================
+関数                                                *yuugokku-function*
+
+                                                    *yuugokku#FindWord()*
+yuugokku#FindWord({keyword}, [{target}])
+    {keyword}で単純な検索をする。
+    {target}が省略されると、対象はwordtrans |yuugokku-wordtrans|になる。
+    {target}は |yuugokku-target| にある引数を用いることができる。
+    マッチ方法 |yuugokku-option| は必ず include |yuugokku-includes| になる。
+    コマンド |:Yuugokku|はこの関数を利用している。
+
+
+                                                    *yuugokku#Search()*
+yuugokku#Search({targets}, {keywords}, {options})
+    {targets}, {keywords}, {options}に基づいて詳細検索を行う。この3つの引数は
+    すべて{List}である。{keywords}のi番目の要素は、{targets}のi番目のtargetと
+    {options}のi番目のoptionに対応させなければならない。
+    
+    {targets}は検索のtarget |yuugokku-target| の{List}である。それぞれの選択肢
+    は、"wordtrans"のように文字列として渡されなければならない。
+    {keywords}は検索対象の文字列や単語の{List}である。
+    {options}は検索のoption |yuugokku-option| の{List}である。それぞれの選択肢
+    は、"starts"のように文字列として渡さなければならない。
+
+
+                                                    *yuugokku#SearchCommand()*
+yuugokku#SearchCommand(...)
+    文字列のリストを受け取り、|yuugokku#Search()|関数の{targets}, {keywords},
+    {options}のような検索条件の3つのリストに変換する。
+
+
+================================================================================
+変数                                                *yuugokku-variable*
+
+                                                    *g:curl_command*
+let g:curl_command = "curl -Ss"
+    yuugokku.vimが内部で使用するcURLのコマンド文字列。
+
+
+                                                    *g:yuugokku_colnum*
+let g:yuugokku_colnum = 80
+    辞書の検索結果の改行幅。
+
+vim:tw=80:ts=4:ft=help:norl

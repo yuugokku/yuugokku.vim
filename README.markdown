@@ -10,6 +10,8 @@ Plug 'yuugokku/yuugokku.vim'
 
 ## 使い方
 ### コマンド
+|コマンド|機能|
+----|----
 |`:Yuugokku {word}`, `:Ygk {word}`|{word}で見出し語、または訳語検索する。|
 |`:YuugokkuSearch [{target-option}] {keyword} [...]`, `:Ygks [{target-option}] {keyword} [...]`|{keyword}と{target-option}で詳細検索する。|
 

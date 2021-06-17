@@ -141,7 +141,6 @@ function! yuugokku#Search(targets, keywords, options) abort
         let url .= 'option_' . i . '=' . s:URLSafe(a:options[i]) . '&'
     endfor
     let result = s:ParseJSON(s:GetHTTP(url))
-    echom g:fanache_url . "にリクエストを送信しました"
     call s:ShowResult(s:FormatResult(result))
 endfunction
 

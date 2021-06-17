@@ -1,4 +1,3 @@
-echom "syntax set"
 if exists("b:yuugokku_syntax")
     finish
 endif

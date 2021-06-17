@@ -104,11 +104,13 @@ function! s:FormatResult(result_dict) abort
 endfunction
 
 
+let s:yuugokku_bufname = "__yuugokku_fanachekitta__"
+
 function! s:ShowResult(text) abort
     " テキストに変換された結果を表示する
-    let win_num = bufwinnr("yuugokku")
+    let win_num = bufwinnr(s:yuugokku_bufname)
     if win_num == -1
-        vsplit yuugokku
+        execute "vsplit " . s:yuugokku_bufname
         normal! ggdG
         setlocal filetype=yuugokku
         setlocal buftype=nowrite
@@ -150,17 +152,18 @@ function! yuugokku#SearchCommand(...) abort
     let options = []
 
     let defined = 0
+    let mode = ""
 
     for arg in a:000
-        " 直前のtargetsがrhymeなら、-で分割しない
-        let last_target = get(targets, -1, "")
-        if last_target ==# "rhyme"
+        " targetsがrhymeまたはregexなら、-で分割しない
+        if mode ==# "rhyme" || mode ==# "regex"
             let arg_split = [arg]
         else
             let arg_split = split(arg, "-")
         endif
 
         if len(arg_split) == 1
+            let mode = ""
             if defined
                 call add(keywords, arg_split[0])
                 let defined = 0
@@ -173,6 +176,7 @@ function! yuugokku#SearchCommand(...) abort
             call add(targets, arg_split[0])
             call add(options, arg_split[1])
             let defined = 1
+            let mode = arg_split[0]
         endif
     endfor
 

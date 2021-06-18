@@ -50,7 +50,7 @@ Author: kpht <charzkpht@gmail.com>
     
 >
 :YuugokkuSearch [{target1-option1}] {keyword1} [[{target2-option2}] {keyword2}] ...
-
+<
 
     {target-option} {keyword}で1つの検索条件を表現する。
     {keyword}は検索語句を意味する。例えば, "fistir", "幸せ"などである。

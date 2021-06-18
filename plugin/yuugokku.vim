@@ -12,6 +12,10 @@ if !exists("g:yuugokku_colnum")
     let g:yuugokku_colnum = 80
 endif
 
+if !exists("g:yuugokku_buffertype")
+    let g:yuugokku_buffertype = "vsplit"
+endif
+
 let g:fanache_url = 'test-fanache.herokuapp.com/api/'
 let g:yuugokku_id = 1
 let g:yuugokku_url = g:fanache_url . g:yuugokku_id . '/'

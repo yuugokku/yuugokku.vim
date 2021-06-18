@@ -3,6 +3,7 @@
 :Yuugokku	yuugokku.txt	/*:Yuugokku*
 :YuugokkuSearch	yuugokku.txt	/*:YuugokkuSearch*
 g:curl_command	yuugokku.txt	/*g:curl_command*
+g:yuugokku_buffertype	yuugokku.txt	/*g:yuugokku_buffertype*
 g:yuugokku_colnum	yuugokku.txt	/*g:yuugokku_colnum*
 yuugokku#FindWord()	yuugokku.txt	/*yuugokku#FindWord()*
 yuugokku#Search()	yuugokku.txt	/*yuugokku#Search()*

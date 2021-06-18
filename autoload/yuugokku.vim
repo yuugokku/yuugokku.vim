@@ -110,7 +110,7 @@ function! s:ShowResult(text) abort
     " テキストに変換された結果を表示する
     let win_num = bufwinnr(s:yuugokku_bufname)
     if win_num == -1
-        execute "vsplit " . s:yuugokku_bufname
+        execute g:yuugokku_buffertype . " " . s:yuugokku_bufname
         normal! ggdG
         setlocal filetype=yuugokku
         setlocal buftype=nowrite

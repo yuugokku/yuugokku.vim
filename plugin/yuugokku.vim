@@ -26,3 +26,6 @@ command! -nargs=1 Ygk Yuugokku <args>
 
 command! -nargs=* YuugokkuSearch call yuugokku#SearchCommand(<f-args>)
 command! -nargs=* Ygks YuugokkuSearch <args>
+
+nnoremap <Leader>y :set operatorfunc=yuugokku#FindWordOperator<CR>g@
+vnoremap <Leader>y :<C-u>call yuugokku#FindWordOperator(visualmode())<CR>

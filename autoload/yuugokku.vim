@@ -114,6 +114,7 @@ function! s:ShowResult(text) abort
         normal! ggdG
         setlocal filetype=yuugokku
         setlocal buftype=nowrite
+        setlocal bufhidden=delete
         call append(0, split(a:text, '\v\n'))
         normal! gg
     else
@@ -181,4 +182,21 @@ function! yuugokku#SearchCommand(...) abort
     endfor
 
     call yuugokku#Search(targets, keywords, options)
+endfunction
+
+function! yuugokku#FindWordOperator(type) abort
+    " <Leader>yによる検索
+    let saved = @@
+
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[v`]y
+    else
+        return
+    endif
+
+    silent execute "Ygk " . @@
+    
+    let @@ = saved
 endfunction
